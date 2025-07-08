@@ -46,7 +46,7 @@ USER ${USERNAME}
 RUN opam init -a --disable-sandboxing --yes --bare && \
         opam update -a && \
         opam switch create 5.2.0+ox --yes \
-        --repos "with-extensions=git+https://github.com/janestreet/opam-repository.git#with-extensions,default" && \
+        --repos "ox=git+https://github.com/oxcaml/opam-repository.git,default" && \
         eval $(opam env --switch 5.2.0+ox) && \
         opam install --yes ocamlformat && \
         opam install --yes merlin && \
