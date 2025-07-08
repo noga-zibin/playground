@@ -12,5 +12,8 @@
                                 "eamodio.gitlens"
                         ]
                 }
+        },
+        "hostRequirements": {
+                "storage": "64gb"
         }
 }
