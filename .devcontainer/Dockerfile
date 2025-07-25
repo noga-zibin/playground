@@ -3,7 +3,13 @@ FROM mcr.microsoft.com/devcontainers/universal
 
 RUN df -h
 
-RUN rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+RUN rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL \
+        /usr/local/php /usr/local/py-utils \
+        /usr/local/python /usr/local/rvm /usr/local/sdkman /usr/local/share/nvm \
+        /opt/conda /opt/dotnet \
+        /home/codespace/.local/lib/python3.12
+
+RUN find / -type f -exec du -h {} + | sort -rh | head -100 || true
 
 RUN du -sh /usr/*
 RUN du -sh /usr/local/*
@@ -47,14 +53,37 @@ RUN opam init -a --disable-sandboxing --yes --bare && \
         opam update -a && \
         opam switch create 5.2.0+ox --yes \
         --repos "ox=git+https://github.com/oxcaml/opam-repository.git,default" && \
-        eval $(opam env --switch 5.2.0+ox) && \
-        opam install --yes ocamlformat && \
-        opam install --yes merlin && \
-        opam install --yes ocaml-lsp-server && \
+        eval $(opam env --switch 5.2.0+ox)
+
+RUN df -h
+
+RUN eval $(opam env --switch 5.2.0+ox) && \
+        opam install -j 1  --yes ocamlformat && \
+        opam clean
+
+RUN df -h
+
+RUN eval $(opam env --switch 5.2.0+ox) && \        
+        opam install -j 1 --yes merlin && \
+        opam clean
+
+RUN df -h
+
+RUN eval $(opam env --switch 5.2.0+ox) && \          
+        opam install -j 1  --yes async && \
+        opam clean
+
+RUN df -h
+
+RUN eval $(opam env --switch 5.2.0+ox) && \          
+        opam install -j 1  --yes ocaml-lsp-server && \
+        opam clean
+
+RUN df -h
+
+RUN eval $(opam env --switch 5.2.0+ox) && \
         opam install --yes utop && \
         opam install --yes parallel && \
         opam install --yes core_unix
-
-RUN df -h
 
 USER root
