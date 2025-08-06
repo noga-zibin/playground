@@ -82,7 +82,6 @@ RUN eval $(opam env --switch 5.2.0+ox) && \
 RUN df -h
 
 RUN eval $(opam env --switch 5.2.0+ox) && \
-        opam install --yes utop && \
         opam install --yes parallel && \
         opam install --yes core_unix
 
